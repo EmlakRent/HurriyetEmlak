@@ -19,9 +19,20 @@ $sonuc = array();
 $ilan_sayisi = 0;
 
 # todo : mbdef class'ına sahip divi bul ve kaç sayfa olduğunu tespit et && infoSearchResults
-for ( $i = 1 ; $i < 7 ; $i++)
+
+
+    $url = file_get_contents("http://www.hurriyetemlak.com/emlak?p44=denizli+çamlaraltı&pageSize=50");
+    preg_match_all('@<span id="ctl00_cphContent_lblTotalRealtyCountNew">(.*?)</span>@si',$url,$ilan_sayisi);
+
+        $sayfa_sayisi = $ilan_sayisi[1][0]/50;
+        $sayfa_sayisi=round($sayfa_sayisi);
+        if(($ilan_sayisi%50) !=0 )
+            $sayfa_sayisi++;
+//echo $sayfa_sayisi;
+
+for ( $i = 1 ; $i < $sayfa_sayisi ; $i++)
 {
-    $url = file_get_contents("http://www.hurriyetemlak.com/emlak?p44=denizli+çamlaraltı&pageSize=50&page=$i");
+   $url = file_get_contents("http://www.hurriyetemlak.com/emlak?p44=denizli+çamlaraltı&pageSize=50&page=$i");
 
 //echo $url;
     //echo "<a href='$url'>$url</a><br>";
@@ -32,7 +43,7 @@ for ( $i = 1 ; $i < 7 ; $i++)
 
     $ilan_sayisi = count($detay_icin_link[0]);
 
-    echo $ilan_sayisi;
+ //   echo $ilan_sayisi;
 
     for ( $j = 0; $j < $ilan_sayisi; $j++ )
     {
